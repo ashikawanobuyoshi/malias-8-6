@@ -1,0 +1,51 @@
+name: Build and deploy to Kuroco front
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Check if kuroco_front.json exists
+        run: |
+          if [ -f "./.output/public/kuroco_front.json" ]; then
+            echo "✅ Found: ./.output/public/kuroco_front.json"
+          else
+            echo "❌ Error: kuroco_front.json not found in ./.output/public folder"
+            exit 1
+          fi
+
+      - name: Zip artifact for upload
+        run: cd ./.output/public && zip ../../dist.zip . -r
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-artifact-${{ github.sha }}
+          path: dist.zip
+          retention-days: 7
+
+      - name: Trigger webhook
+        uses: diverta/workflow-webhook@v3
+        with:
+          webhook_url: "https://malias-2025-3-29.g.kuroco.app/direct/menu/github/"
+          webhook_secret: "fa824a353087e6ee3578efdf3ba5bd33"
+          data: '{"single_zip":"1","domain":"malias-2025-3-29.g.kuroco-front.app","repository":"${{ github.repository }}","run_id":"${{ github.run_id }}","hash":"${{ github.sha }}"}'

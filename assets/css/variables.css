@@ -1,0 +1,17 @@
+/* カスタムCSS変数の定義 */
+:root {
+  --primary-color: #1e3a8a;  /* メインカラー */
+  --secondary-color: #2563eb; /* サブカラー */
+  --font-base: 'Noto Sans JP', sans-serif;
+  --font-size-base: 16px;
+  --spacing-base: 1rem;
+}
+
+/* 全体の基本設定 */
+body {
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+}

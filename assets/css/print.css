@@ -1,0 +1,21 @@
+/* 印刷用スタイル */
+@media print {
+  body {
+    color: #000;
+    background: #fff;
+    font-size: 12pt;
+  }
+
+  header, footer, nav, .no-print {
+    display: none !important;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  a::after {
+    content: " (" attr(href) ")";
+  }
+}

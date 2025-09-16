@@ -1,5 +1,4 @@
 // middleware/auth.global.ts
-import { useUserStore } from '~/stores/user'
 import { defineNuxtRouteMiddleware, navigateTo } from '#app'
 
 export default defineNuxtRouteMiddleware((to, from) => {

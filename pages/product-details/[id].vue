@@ -641,6 +641,9 @@ const sendOrderEmail = async () => {
       html,
     });
 
+    // 成功したら UI 上の全お気に入りを削除
+    favoritesStore.clearFavorites();
+
     success.value = true;
     error.value = "";
     console.log("注文メール送信成功:", recipients);
